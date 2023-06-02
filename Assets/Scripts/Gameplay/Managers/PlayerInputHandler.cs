@@ -1,9 +1,10 @@
 ﻿using Unity.FPS.Game;
 using UnityEngine;
+using Mirror;
 
 namespace Unity.FPS.Gameplay
 {
-    public class PlayerInputHandler : MonoBehaviour
+    public class PlayerInputHandler : NetworkBehaviour
     {
         [Tooltip("Sensitivity multiplier for moving the camera around")]
         public float LookSensitivity = 1f;
@@ -26,6 +27,8 @@ namespace Unity.FPS.Gameplay
 
         void Start()
         {
+            if (!isLocalPlayer)
+                return;
             m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
             DebugUtility.HandleErrorIfNullGetComponent<PlayerCharacterController, PlayerInputHandler>(
                 m_PlayerCharacterController, this, gameObject);
@@ -36,8 +39,9 @@ namespace Unity.FPS.Gameplay
             Cursor.visible = false;
         }
 
-        void LateUpdate()
-        {
+        void LateUpdate(){
+            if (!isLocalPlayer)
+                return;
             m_FireInputWasHeld = GetFireInputHeld();
         }
 

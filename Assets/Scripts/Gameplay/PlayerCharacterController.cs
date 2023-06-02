@@ -143,6 +143,8 @@ namespace Unity.FPS.Gameplay
 
         void Start()
         {
+             if (!isLocalPlayer)
+                return;
             // fetch components on the same gameObject
             m_Controller = GetComponent<CharacterController>();
             DebugUtility.HandleErrorIfNullGetComponent<CharacterController, PlayerCharacterController>(m_Controller,
